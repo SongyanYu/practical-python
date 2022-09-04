@@ -4,6 +4,10 @@
 
 import csv
 def read_portfolio(filename):
+    '''
+    Read a stock portfolio file into a list of distionaries with keys
+    name, shares, and price.
+    '''
     portfolio = []
 
     with open(filename, 'rt') as f:
@@ -35,28 +39,32 @@ def read_prices(filename):
 
 def make_report(portfolio, prices):
     report = []
-    for name, shares, price in portfolio:
-        price_new = prices[name]
-        change = price - float(price_new)
-        summary = (name, shares, '$'+price_new, change)
-        report.append (summary)
+    for s in portfolio:
+        price_new = prices[s['name']]
+        change = s['price'] - float(price_new)
+        summary = (s['name'], s['shares'], '$'+price_new, change)
+        report.append(summary)
     return report
 
-portfolio = read_portfolio('Data/portfolio.csv')
+def print_report(report):
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print('%10s %10s %10s %10s' % headers)
+    print(('-' * 10 + ' ') * len(headers))
+    for r in report:
+        print('%10s %10d %10s %10.2f' % r)
 
-from collections import Counter
-holdings = Counter()
-for s in portfolio:
-    holdings[s['name']] += s['shares']
+def portfolio_report(portfolio_filename, prices_filename):
+    portfolio = read_portfolio(portfolio_filename)
+    prices = read_prices(prices_filename)
+    report = make_report(portfolio, prices)
+    print_report(report)
 
+portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
 
-prices = read_prices('Data/prices.csv')
+portfolio_report('Data/portfolio2.csv', 'Data/prices.csv')
 
-report = make_report(portfolio, prices)
-
-headers = ('Name', 'Shares', 'Price', 'Change')
-print('%10s %10s %10s %10s' %headers)
-print(('-' * 10 + ' ')* len(headers))
-for r in report:
-    print('%10s %10d %10s %10.2f' %r)
-
+files = ['Data/portfolio.csv', 'Data/portfolio2.csv']
+for name in files:
+    print(f'{name:-^43s}')
+    portfolio_report(name, 'Data/prices.csv')
+    print()
