@@ -46,25 +46,3 @@ def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','
             records.append(record)
 
         return records
-
-portfolio = parse_csv('Data/portfolio.csv')
-portfolio
-
-shares_held = parse_csv('Data/portfolio.csv', select=['name', 'shares'])
-shares_held
-
-portfolio = parse_csv('Data/portfolio.csv', types=[str, int, float])
-portfolio
-
-shares_held = parse_csv('Data/portfolio.csv', select=['name', 'shares'], types=[str, int])
-shares_held
-
-prices = parse_csv('Data/prices.csv', types=[str, float], has_headers=False)
-prices
-
-portfolio = parse_csv('Data/portfolio.dat', types=[str, int, float], delimiter=' ')
-portfolio
-
-parse_csv('Data/prices.csv', select=['name', 'price'], has_headers=False)
-
-portfolio = parse_csv('Data/missing.csv', types=[str, int, float])

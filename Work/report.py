@@ -2,40 +2,16 @@
 #
 # Exercise 2.4
 
-import csv
+import fileparse
 def read_portfolio(filename):
     '''
     Read a stock portfolio file into a list of distionaries with keys
     name, shares, and price.
     '''
-    portfolio = []
-
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-
-        for row in rows:
-            record = dict(zip(headers, row))
-            stock = {
-                'name': record['name'],
-                'shares': int(record['shares']),
-                'price': float(record['price'])
-            }
-            portfolio.append(stock)
-    return portfolio
-
-import csv
+    return fileparse.parse_csv(filename, select=['name','shares','price'], types=[str, int, float])
 
 def read_prices(filename):
-    prices= {}
-
-    with open(filename, 'r') as f:
-        rows = csv.reader(f)
-        for row in rows:
-            if len(row) != 0:
-                prices[row[0]] = row[1]
-
-    return prices
+    return dict(fileparse.parse_csv(filename, has_headers=False))
 
 def make_report(portfolio, prices):
     report = []
