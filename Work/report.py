@@ -35,12 +35,12 @@ def portfolio_report(portfolio_filename, prices_filename):
     report = make_report(portfolio, prices)
     print_report(report)
 
-portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+def main(args):
+    if len(args) != 3:
+        raise SystemExit('Usage: %s portfile pricefile' % args[0])
+    portfolio_report(args[1], args[2])
 
-portfolio_report('Data/portfolio2.csv', 'Data/prices.csv')
 
-files = ['Data/portfolio.csv', 'Data/portfolio2.csv']
-for name in files:
-    print(f'{name:-^43s}')
-    portfolio_report(name, 'Data/prices.csv')
-    print()
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
